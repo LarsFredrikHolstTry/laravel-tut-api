@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Student;
+use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class StudentController extends Controller
+class PlayerController extends Controller
 {
     public function index()
     {
-        $students = Student::all();
+        $players = Player::all();
 
-        if($students->isEmpty()){
+        if($players->isEmpty()){
             return response()->json([
-                'message' => 'No students found',
+                'message' => 'No players found',
                 'status' => 404,
             ]);
         }
 
         return response()->json([
-            'data' => $students,
+            'data' => $players,
             'status' => 200,
         ]);
     }
@@ -29,79 +29,79 @@ class StudentController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:students',
+            'email' => 'required|email|unique:players',
             'password' => 'required',
         ]);
 
-        $student = Student::create($request->all());
+        $player = Player::create($request->all());
 
         return response()->json([
-            'data' => $student,
+            'data' => $player,
             'status' => 201,
         ]);
     }
 
     public function show(int $id)
     {
-        $student = Student::find($id);
+        $player = Player::find($id);
 
-        if(!$student){
+        if(!$player){
             return response()->json([
-                'message' => 'Student not found',
+                'message' => 'Player not found',
                 'status' => 404,
             ]);
         }
 
         return response()->json([
-            'data' => $student,
+            'data' => $player,
             'status' => 200,
         ]);
     }
 
     public function update(Request $request, int $id)
     {
-        $student = Student::find($id);
+        $player = Player::find($id);
 
-        if(!$student){
+        if(!$player){
             return response()->json([
-                'message' => 'Student not found',
+                'message' => 'Player not found',
                 'status' => 404,
             ]);
         }
 
-        if(!$student->update($request->all())){
+        if(!$player->update($request->all())){
             return response()->json([
-                'message' => 'Error updating student',
+                'message' => 'Error updating player',
                 'status' => 500,
             ]);
         };
 
         return response()->json([
-            'data' => $student,
+            'data' => $player,
             'status' => 200,
         ]);
     }
 
     public function destroy(int $id)
     {
-        $student = Student::find($id);
+        $player = Player::find($id);
 
-        if(!$student){
+        if(!$player){
             return response()->json([
-                'message' => 'Student not found',
+                'message' => 'Player not found',
                 'status' => 404,
             ]);
         }
 
-        if(!$student->delete()){
+        if(!$player->delete()){
             return response()->json([
-                'message' => 'Error deleting student',
+                'message' => 'Error deleting player',
                 'status' => 500,
             ]);
         };
 
         return response()->json([
-            'message' => 'Student deleted',
+            'message' => 'Player deleted',
             'status' => 200,
         ]);
     }
